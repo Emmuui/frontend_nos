@@ -2,7 +2,6 @@ import axios from 'axios';
 import { LoginRequest } from 'auth/ts'
 
 const { REACT_APP_API_URL } = process.env;
-console.log('react app', REACT_APP_API_URL)
 
 export const api = axios.create({
   withCredentials: true,

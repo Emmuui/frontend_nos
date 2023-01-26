@@ -1,8 +1,11 @@
 import React, { ReactElement } from 'react'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
-import { ROUTES } from './routes'
-import LoginPage from '../pages/LoginPage'
+import { ROUTES } from 'routes/routes'
+import LoginPage from 'pages/LoginPage'
+import HomePage from 'pages/HomePage'
+import SignUpPage from 'pages/SignUpPage'
+
 
 type RouteType = {
   path: string
@@ -12,7 +15,9 @@ type RouteType = {
 const AppRoutes = (): ReactElement => {
   const routes = {
     publicRoutes: [
+      { path: ROUTES.home, element: <HomePage />},
       { path: ROUTES.login, element: <LoginPage /> },
+      { path: ROUTES.login, element: <SignUpPage /> },
     ],
     privateRoutes: [
       // { path: ROUTES.profilePage.path, element: <ProfilePage tabIndex={2} /> },

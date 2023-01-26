@@ -1,3 +1,7 @@
+html {
+  background-image: linear-gradient(to right bottom, #302174, #40207b, #501c82, #611688, #72098c);
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -7,7 +11,9 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.main {
+  font-family: 'Poppins', sans-serif !important;
+  font-style: normal !important;
+  min-height: 100vh;
+  min-width: 100vw;
 }

@@ -7,9 +7,10 @@ import { CurrentUserResponse } from 'auth/ts'
 
 export const useAuth = () => {
   const userState = (state: RootState): CurrentUserResponse | null | undefined => state.auth.user
-
+  const isLoadingState = (state: RootState) => state.auth.loading
   const isAuth = useAppSelector(createSelector(userState, (user): boolean => user !== null && user !== undefined))
   const user = useAppSelector(userState)
+  const isLoading = useAppSelector(isLoadingState)
   const dispatch = useAppDispatch()
   return useMemo(() => {
     const actions = {
@@ -20,6 +21,7 @@ export const useAuth = () => {
       ...bindActionCreators(actions, dispatch),
       isAuth,
       user,
+      isLoading,
     }
   }, [isAuth, user, dispatch])
 }
