@@ -1,5 +1,5 @@
 import { ReactElement } from 'react'
-import { TextField, Typography, Box } from '@mui/material'
+import { TextField, Typography } from '@mui/material'
 import { UseFormRegisterReturn } from 'react-hook-form'
 import styles from './styles.module.scss';
 

@@ -1,5 +1,5 @@
-import { createAsyncThunk } from '@reduxjs/toolkit'
-import { LoginRequest, LoginResponse } from 'auth/ts'
+import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
+import { DashboardRegistrationRequest, LoginRequest, LoginResponse } from 'auth/ts'
 import { authAPI } from 'api'
 
 export const Login = createAsyncThunk<LoginResponse, LoginRequest>(
@@ -12,6 +12,17 @@ export const Login = createAsyncThunk<LoginResponse, LoginRequest>(
   }
 })
 
+export const SignUp = createAsyncThunk<LoginResponse, DashboardRegistrationRequest>(
+  'auth/sign_up', async (requestData, thunkAPI) => {
+    try {
+      const { data } = await authAPI.sign_up(requestData)
+      return data
+    } catch (e) {
+      return thunkAPI
+    }
+  })
 
-const authThunks = { Login }
+export const LogOut = createAction<void>('auth/logout')
+
+const authThunks = { Login, SignUp, LogOut }
 export default authThunks

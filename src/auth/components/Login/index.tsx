@@ -9,8 +9,8 @@ import { PasswordInput } from 'shared/components/PasswordInput'
 import styles from './styles.module.scss'
 
 const LoginForm = () => {
-  const { Login, isAuth, isLoading } = useAuth()
-  const [isOpen, setIsOpen] = useState<boolean>(false)
+  const { Login, isAuth, isLoading, user } = useAuth()
+  // const [isOpen, setIsOpen] = useState<boolean>(false)
   const navigate = useNavigate()
   const {
     register,
@@ -25,6 +25,7 @@ const LoginForm = () => {
   const onSubmit = (data: LoginRequest) => {
     Login(data)
   }
+  console.log(user)
 
   useEffect(() => {
     if (isAuth) {

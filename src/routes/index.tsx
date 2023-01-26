@@ -17,7 +17,7 @@ const AppRoutes = (): ReactElement => {
     publicRoutes: [
       { path: ROUTES.home, element: <HomePage />},
       { path: ROUTES.login, element: <LoginPage /> },
-      { path: ROUTES.login, element: <SignUpPage /> },
+      { path: ROUTES.sign_up, element: <SignUpPage /> },
     ],
     privateRoutes: [
       // { path: ROUTES.profilePage.path, element: <ProfilePage tabIndex={2} /> },

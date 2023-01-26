@@ -1,4 +1,4 @@
-import { Login } from 'auth/redux/thunk'
+import { Login, LogOut, SignUp } from 'auth/redux/thunk'
 import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
 
 import { CurrentUserResponse } from 'auth/ts'
@@ -20,7 +20,8 @@ export const authSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addMatcher(isFulfilled(Login), (state, { payload }) => {
+      .addCase(LogOut, () => initialState)
+      .addMatcher(isFulfilled(Login, SignUp), (state, { payload }) => {
         state.accessToken = payload.accessToken
         state.refreshToken = payload.refreshToken
         state.accessTokenExpiresAt = payload.accessTokenExpiresAt
@@ -29,10 +30,10 @@ export const authSlice = createSlice({
         state.user = payload.user
         console.log('state.user', state.user)
       })
-      .addMatcher(isPending(Login), state => {
+      .addMatcher(isPending(Login, SignUp), state => {
         state.loading = true
       })
-      .addMatcher(isRejected(Login), state => {
+      .addMatcher(isRejected(Login, SignUp), state => {
         state.loading = false
         state.error = true
       })

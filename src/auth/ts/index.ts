@@ -3,6 +3,14 @@ export interface LoginRequest {
   password: string
 }
 
+export interface AuthFormInputs {
+  email: string
+  username?: string
+  password: string
+  confirmPassword?: string
+}
+
+
 export interface LoginResponse {
   accessToken: string
   refreshToken: string
@@ -56,4 +64,10 @@ export interface OnboardingResponse {
 export interface UserStatusResponse {
   id: number
   name: 'Activated' | 'Deactivated'
+}
+
+export interface DashboardRegistrationRequest {
+  email: string
+  password: string
+  username: string
 }

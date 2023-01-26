@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   AppBar,
@@ -13,6 +13,7 @@ import {
   Tooltip,
   MenuItem,
 } from '@mui/material'
+import styles from './styles.module.scss'
 
 import useAuth from 'auth/hooks/useAuth'
 
@@ -22,7 +23,7 @@ const settings = ['Profile', 'Logout']
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
-  const { isAuth } = useAuth()
+  const { isAuth, LogOut } = useAuth()
   const navigate = useNavigate()
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
@@ -39,12 +40,24 @@ const Navbar = () => {
     setAnchorElUser(null)
   }
 
+  const handleLogout = () => {
+    LogOut()
+  }
+
+  const handleSettings = (menu: string) => {
+    if (menu === 'Logout') {
+      handleLogout()
+    }
+    if (menu === 'Profile') {
+      console.log('Profile page not created yet')
+    }
+  }
   const handleSignIn = () => {
     navigate('/login')
   }
 
   return (
-    <AppBar position='static' color='secondary' enableColorOnDark={true}>
+    <Box position='static' className={styles.navbar__container}>
       <Container maxWidth='xl'>
         <Toolbar disableGutters>
           <Typography
@@ -148,23 +161,27 @@ const Navbar = () => {
                   open={Boolean(anchorElUser)}
                   onClose={handleCloseUserMenu}
                 >
-                  {settings.map(setting => (
-                    <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                      <Typography textAlign='center'>{setting}</Typography>
+                  {settings.map(menu => (
+                    <MenuItem key={menu} onClick={() => handleSettings(menu)}>
+                      <Typography textAlign='center'>{menu}</Typography>
                     </MenuItem>
                   ))}
                 </Menu>
               </>
             ) : (
-              <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleSignIn}>
-                <Typography variant='inherit'>Sign In</Typography>
-              </Button>
+              <Box display={'flex'}>
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleSignIn}>
+                  <Typography variant='inherit'>Sign In</Typography>
+                </Button>
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} variant={'contained'} onClick={handleSignIn}>
+                  <Typography variant='inherit'>Sign Up</Typography>
+                </Button>
+              </Box>
             )}
           </Box>
-
         </Toolbar>
       </Container>
-    </AppBar>
+    </Box>
   )
 }
 export default Navbar

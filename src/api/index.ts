@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { LoginRequest } from 'auth/ts'
+import { DashboardRegistrationRequest, LoginRequest } from 'auth/ts'
 
 const { REACT_APP_API_URL } = process.env;
 
@@ -12,5 +12,8 @@ export const api = axios.create({
 export const authAPI = {
   login(request: LoginRequest) {
     return api.post('/auth/login', request)
+  },
+  sign_up(request: DashboardRegistrationRequest) {
+    return api.post('/users/dashboard-users/register', request)
   },
 }
