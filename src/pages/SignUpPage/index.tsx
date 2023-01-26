@@ -1,6 +1,6 @@
 import React, { ReactElement } from 'react'
 import { Grid } from '@mui/material'
-import SignUpForm from 'auth/components/SignUp'
+import SignUpForm from 'business_logic/auth/components/SignUp'
 
 const SignUpPage = (): ReactElement => {
   return (

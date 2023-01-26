@@ -1,7 +1,7 @@
-import { Login, LogOut, SignUp } from 'auth/redux/thunk'
+import { Login, LogOut, SignUp } from 'business_logic/auth/redux/thunk'
 import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
 
-import { CurrentUserResponse } from 'auth/ts'
+import { CurrentUserResponse } from 'business_logic/auth/ts'
 
 const initialState = {
   isLoggedIn: false,
@@ -24,6 +24,8 @@ export const authSlice = createSlice({
       .addMatcher(isFulfilled(Login, SignUp), (state, { payload }) => {
         state.accessToken = payload.accessToken
         state.refreshToken = payload.refreshToken
+        localStorage.setItem('accessToken', payload.accessToken);
+        localStorage.setItem('refreshToken', payload.accessToken);
         state.accessTokenExpiresAt = payload.accessTokenExpiresAt
         state.refreshTokenExpiresAt = payload.refreshTokenExpiresAt
         state.isLoggedIn = true

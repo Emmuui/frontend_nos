@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 import styles from './styles.module.scss'
 
-import useAuth from 'auth/hooks/useAuth'
+import useAuth from 'business_logic/auth/hooks/useAuth'
 
 const pages = ['Dashboard']
 const settings = ['Profile', 'Logout']
@@ -44,12 +44,16 @@ const Navbar = () => {
     LogOut()
   }
 
+  const handleProfile = () => {
+    navigate('/get_user_asset')
+  }
+
   const handleSettings = (menu: string) => {
     if (menu === 'Logout') {
       handleLogout()
     }
     if (menu === 'Profile') {
-      console.log('Profile page not created yet')
+      handleProfile()
     }
   }
   const handleSignIn = () => {

@@ -1,5 +1,5 @@
 import { createAction, createAsyncThunk } from '@reduxjs/toolkit'
-import { DashboardRegistrationRequest, LoginRequest, LoginResponse } from 'auth/ts'
+import { DashboardRegistrationRequest, LoginRequest, LoginResponse } from 'business_logic/auth/ts'
 import { authAPI } from 'api'
 
 export const Login = createAsyncThunk<LoginResponse, LoginRequest>(

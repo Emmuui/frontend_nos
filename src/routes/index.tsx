@@ -5,6 +5,8 @@ import { ROUTES } from 'routes/routes'
 import LoginPage from 'pages/LoginPage'
 import HomePage from 'pages/HomePage'
 import SignUpPage from 'pages/SignUpPage'
+import GetUserAssetPage from '../pages/GetUserAssetPage'
+import PrivateRoute from './PrivateRoute'
 
 
 type RouteType = {
@@ -20,7 +22,7 @@ const AppRoutes = (): ReactElement => {
       { path: ROUTES.sign_up, element: <SignUpPage /> },
     ],
     privateRoutes: [
-      // { path: ROUTES.profilePage.path, element: <ProfilePage tabIndex={2} /> },
+      { path: ROUTES.get_user_asset, element: <GetUserAssetPage/> },
     ],
   }
 
@@ -30,11 +32,11 @@ const AppRoutes = (): ReactElement => {
         {Object(routes.publicRoutes).map((route: RouteType, index: number) => (
           <Route key={index} path={route.path} element={route.element} />
         ))}
-        {/*{Object(routes.privateRoutes).map((route: RouteType, index: number) => (*/}
-        {/*  <Route key={index} path={route.path} element={<PrivateRoute />}>*/}
-        {/*    <Route path={route.path} element={route.element} />*/}
-        {/*  </Route>*/}
-        {/*))}*/}
+        {Object(routes.privateRoutes).map((route: RouteType, index: number) => (
+          <Route key={index} path={route.path} element={<PrivateRoute />}>
+            <Route path={route.path} element={route.element} />
+          </Route>
+        ))}
         {/*<Route path="*" element={<NotFoundPage />} />*/}
       </Routes>
     </BrowserRouter>

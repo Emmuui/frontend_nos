@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 import { bindActionCreators, createSelector } from '@reduxjs/toolkit'
 import { RootState, useAppDispatch, useAppSelector } from 'store'
-import { authActions } from 'auth/redux/slice'
-import authThunks from 'auth/redux/thunk'
-import { CurrentUserResponse } from 'auth/ts'
+import { authActions } from 'business_logic/auth/redux/slice'
+import authThunks from 'business_logic/auth/redux/thunk'
+import { CurrentUserResponse } from 'business_logic/auth/ts'
 
 export const useAuth = () => {
   const userState = (state: RootState): CurrentUserResponse | null | undefined => state.auth.user

@@ -1,5 +1,5 @@
 import { useForm } from 'react-hook-form'
-import { AuthFormInputs, DashboardRegistrationRequest } from 'auth/ts'
+import { AuthFormInputs, DashboardRegistrationRequest } from 'business_logic/auth/ts'
 import styles from './styles.module.scss'
 import { Box, Button, Link, TextField, Typography } from '@mui/material'
 import { EmailInput } from 'shared/components/EmailInput'
