@@ -3,13 +3,13 @@ import useAuth from 'business_logic/auth/hooks/useAuth'
 import { LoginRequest } from 'business_logic/auth/ts'
 import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
-import { Link, Typography, Box, Button } from '@mui/material'
+import { Link, Typography, Box, Button, CircularProgress } from '@mui/material'
 import { EmailInput } from 'shared/components/EmailInput'
 import { PasswordInput } from 'shared/components/PasswordInput'
 import styles from './styles.module.scss'
 
 const LoginForm = () => {
-  const { Login, isAuth, isLoading, user } = useAuth()
+  const { Login, isAuth, isLoading } = useAuth()
   // const [isOpen, setIsOpen] = useState<boolean>(false)
   const navigate = useNavigate()
   const {
@@ -25,7 +25,6 @@ const LoginForm = () => {
   const onSubmit = (data: LoginRequest) => {
     Login(data)
   }
-  console.log(user)
 
   useEffect(() => {
     if (isAuth) {
@@ -80,7 +79,7 @@ const LoginForm = () => {
           error={errors?.email?.message}
         />
         <Button variant={'contained'} type={'submit'} disabled={isLoading} className={styles.login_button}>
-          <Typography variant={'inherit'}>Login</Typography>
+          <Typography variant={'inherit'}>Login {isLoading ? <CircularProgress/> : null}</Typography>
         </Button>
       </form>
       <Typography
@@ -92,7 +91,7 @@ const LoginForm = () => {
         color={'grey'}
       >
         Not a member?{' '}
-        <Link onClick={handleNavigateSignUp} color={'darkgray'} underline='hover'>
+        <Link onClick={handleNavigateSignUp} color={'darkgray'} underline='hover' className={styles.sign_up__button}>
           Sign up now
         </Link>
       </Typography>

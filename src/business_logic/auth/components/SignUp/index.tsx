@@ -1,14 +1,15 @@
 import { useForm } from 'react-hook-form'
 import { AuthFormInputs, DashboardRegistrationRequest } from 'business_logic/auth/ts'
 import styles from './styles.module.scss'
-import { Box, Button, Link, TextField, Typography } from '@mui/material'
+import { Box, Button, Link, Typography } from '@mui/material'
 import { EmailInput } from 'shared/components/EmailInput'
 import { PasswordInput } from 'shared/components/PasswordInput'
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { schema } from 'shared/schemas/schemas'
-import useAuth from '../../hooks/useAuth'
+import useAuth from 'business_logic/auth/hooks/useAuth'
+import { TextFieldComponent } from 'shared/components/TextField'
 
 const SignUpForm = () => {
   const {
@@ -18,10 +19,9 @@ const SignUpForm = () => {
   } = useForm<AuthFormInputs>({
     resolver: yupResolver(schema),
   })
-  const { SignUp, isAuth, isLoading } = useAuth()
+  const { SignUp, isAuth } = useAuth()
 
   const navigate = useNavigate()
-
 
   const handleNavigateSignIn = () => {
     navigate('/login')
@@ -37,7 +37,7 @@ const SignUpForm = () => {
     console.log(data)
 
     const convertedData = {
-      email: data.email.trim(),
+      email: data.email?.trim(),
       username: data.username?.trim(),
       password: data.password?.trim(),
     }
@@ -71,20 +71,11 @@ const SignUpForm = () => {
           })}
           error={errors?.email?.message}
         />
-        <div className={styles.text_field}>
-          <TextField
-            id={'username'}
-            inputProps={register('username')}
-            required={true}
-            type={'text'}
-            placeholder={'Username'}
-            variant={'outlined'}
-            name={'username'}
-            color={'primary'}
-            fullWidth={true}
-            autoComplete={'off'}
-          />
-        </div>
+        <TextFieldComponent
+          id={'username'}
+          label={'Username'}
+          register={register('password', {})}
+          error={errors?.username?.message}/>
         <PasswordInput
           id={'password'}
           label={'Password'}
@@ -116,7 +107,7 @@ const SignUpForm = () => {
         color={'grey'}
       >
         Already have an account?{' '}
-        <Link onClick={handleNavigateSignIn} color={'darkgray'} underline='hover'>
+        <Link onClick={handleNavigateSignIn} color={'darkgray'} underline='hover' className={styles.sign_in__button}>
           Sign in now
         </Link>
       </Typography>

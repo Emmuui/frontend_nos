@@ -18,12 +18,12 @@ import styles from './styles.module.scss'
 import useAuth from 'business_logic/auth/hooks/useAuth'
 
 const pages = ['Dashboard']
-const settings = ['Profile', 'Logout']
+const settings = ['Profile', 'Manage your assets', 'Logout']
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
-  const { isAuth, LogOut } = useAuth()
+  const { isAuth, user, LogOut } = useAuth()
   const navigate = useNavigate()
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
@@ -44,7 +44,12 @@ const Navbar = () => {
     LogOut()
   }
 
-  const handleProfile = () => {
+  const handleDashboard = () => {
+    navigate('/')
+  }
+
+
+  const handleManageUserAssets = () => {
     navigate('/get_user_asset')
   }
 
@@ -52,12 +57,16 @@ const Navbar = () => {
     if (menu === 'Logout') {
       handleLogout()
     }
-    if (menu === 'Profile') {
-      handleProfile()
+    if (menu === 'Manage your assets') {
+      handleManageUserAssets()
     }
   }
   const handleSignIn = () => {
     navigate('/login')
+  }
+
+  const handleSignUp = () => {
+    navigate('/sign_up')
   }
 
   return (
@@ -68,7 +77,6 @@ const Navbar = () => {
             variant='h6'
             noWrap
             component='a'
-            href='/'
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -78,48 +86,15 @@ const Navbar = () => {
               color: 'inherit',
               textDecoration: 'none',
             }}
+            className={styles.navbar__ico}
+            onClick={handleDashboard}
           >
             Nosis.io
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              size='large'
-              aria-label='account of current user'
-              aria-controls='menu-appbar'
-              aria-haspopup='true'
-              onClick={handleOpenNavMenu}
-              color='inherit'
-            ></IconButton>
-            <Menu
-              id='menu-appbar'
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
-              sx={{
-                display: { xs: 'block', md: 'none' },
-              }}
-            >
-              {pages.map(page => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign='center'>{page}</Typography>
-                </MenuItem>
-              ))}
-            </Menu>
-          </Box>
           <Typography
             variant='h5'
             noWrap
             component='a'
-            href=''
             sx={{
               mr: 2,
               display: { xs: 'flex', md: 'none' },
@@ -130,23 +105,18 @@ const Navbar = () => {
               color: 'inherit',
               textDecoration: 'none',
             }}
+            className={styles.navbar__ico}
+            onClick={handleDashboard}
           >
             Nosis.io
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            {pages.map(page => (
-              <Button key={page} onClick={handleCloseNavMenu} sx={{ my: 2, color: 'white', display: 'block' }}>
-                {page}
-              </Button>
-            ))}
-          </Box>
-
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
           <Box sx={{ flexGrow: 0 }}>
             {isAuth ? (
               <>
                 <Tooltip title='Open settings'>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+                    <Avatar alt={user?.firstName ?? ''} src={user?.avatarUrl ?? ''} />
                   </IconButton>
                 </Tooltip>
                 <Menu
@@ -177,7 +147,7 @@ const Navbar = () => {
                 <Button sx={{ my: 2, color: 'white', display: 'block' }} onClick={handleSignIn}>
                   <Typography variant='inherit'>Sign In</Typography>
                 </Button>
-                <Button sx={{ my: 2, color: 'white', display: 'block' }} variant={'contained'} onClick={handleSignIn}>
+                <Button sx={{ my: 2, color: 'white', display: 'block' }} variant={'contained'} onClick={handleSignUp}>
                   <Typography variant='inherit'>Sign Up</Typography>
                 </Button>
               </Box>

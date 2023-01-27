@@ -1,3 +1,27 @@
 .password__input {
+  display: flex;
   margin-bottom: 20px;
+  background: #F2F5F6;
+  border: 1px solid rgba(68, 68, 68, 0.5);
+  border-radius: 5px;
+  padding-left: 5px;
 }
+
+.password__visibility__button{
+  cursor: pointer;
+  margin-top: 12px;
+  margin-right: 10px;
+}
+
+
+.input{
+  font-family: 'Poppins', sans-serif;
+  font-style: normal;
+  background: #F2F5F6;
+  border-radius: 12px 0 0 12px;
+  height: 48px;
+  justify-content: center;
+  justify-items: center;
+  align-items: center;
+}
+
