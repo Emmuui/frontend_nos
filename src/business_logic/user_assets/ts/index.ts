@@ -43,3 +43,31 @@ export interface AssetTypeResponse {
   id: number
   name: 'Crypto' | 'Stock' | 'Offline' | 'NFT' | 'Custom' | 'Commodity'
 }
+
+
+export interface SearchAssetRequest {
+  limit: number
+  page: number
+  search?: string | null
+}
+
+
+export interface SearchAssetResponse {
+  itemCount: number
+  totalItems: number
+  itemsPerPage: number
+  totalPages: number
+  currentPage: number
+}
+
+export interface PaginatedAssetsResponse {
+  items: AssetResponse[]
+  meta: SearchAssetResponse
+}
+
+export interface CreateUserAssetTransactionRequest {
+  assetId: number
+  quantity: number
+  price: number
+  transactionDate: string
+}

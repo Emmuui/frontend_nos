@@ -12,7 +12,13 @@
 
 .login_button {
   background-image: linear-gradient(to right bottom, #302174, #40207b, #501c82, #611688, #72098c);
-  width: 150px;
+  max-width: 250px;
+  padding: 7px;
+}
+
+.loading_button {
+  background-image: linear-gradient(to right bottom, #513bb0, #2f1367, #683596, #6e2893, #72098c);
+  max-width: 250px;
   padding: 7px;
 }
 

@@ -85,11 +85,11 @@ export const GetUserAsset = () => {
       {tableRows?.length ? (
         <>
           <div className={styles.search_bar}>
-            <TextField
-              variant='standard'
-              placeholder={'search by asset name'}
-              onChange={event => handleSearchAsset(event.target.value)}
-            />
+            {/*<TextField*/}
+            {/*  variant='standard'*/}
+            {/*  placeholder={'search by asset name'}*/}
+            {/*  onChange={event => handleSearchAsset(event.target.value)}*/}
+            {/*/>*/}
             <Button className={styles.add_asset_button} onClick={handleClickOpen}>
               <p className={styles.add_asset__text}>Add Asset</p>
             </Button>

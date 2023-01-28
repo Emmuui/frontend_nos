@@ -13,8 +13,6 @@ export const GetPopularAsset = () => {
       { label: 'Asset Name' },
       { label: 'Symbol' },
       { label: 'Total value' },
-      { label: 'Buy price' },
-      { label: 'Quantity' },
       { label: 'Currency price' },
     ]
   }, [])
@@ -25,8 +23,6 @@ export const GetPopularAsset = () => {
     asset_name: string,
     symbol: string,
     totalValue: number,
-    avgBuyPrice: number,
-    totalQuantity: number,
     currencyPrice: number
   ): {
     id: number
@@ -34,11 +30,9 @@ export const GetPopularAsset = () => {
     asset_name: string
     symbol: string
     totalValue: number
-    avgBuyPrice: number
-    totalQuantity: number
     currencyPrice: number
   } => {
-    return { id, image, asset_name, symbol, totalValue, avgBuyPrice, totalQuantity, currencyPrice }
+    return { id, image, asset_name, symbol, totalValue, currencyPrice }
   }
 
   const tableRows = popularAsset?.items.map(asset =>
@@ -48,8 +42,6 @@ export const GetPopularAsset = () => {
       asset?.asset.name,
       asset?.asset.symbol,
       asset?.totalValue,
-      asset?.avgBuyPrice,
-      asset?.totalQuantity,
       asset?.asset.currentPrice
     )
   )

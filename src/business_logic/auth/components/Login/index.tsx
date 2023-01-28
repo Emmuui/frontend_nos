@@ -78,8 +78,13 @@ const LoginForm = () => {
           })}
           error={errors?.email?.message}
         />
-        <Button variant={'contained'} type={'submit'} disabled={isLoading} className={styles.login_button}>
-          <Typography variant={'inherit'}>Login {isLoading ? <CircularProgress/> : null}</Typography>
+        <Button
+          variant={'contained'}
+          type={'submit'}
+          disabled={isLoading}
+          className={isLoading ? styles.login_button : styles.loading_button}
+        >
+          {!isLoading ? 'Login' : 'Loading...'}
         </Button>
       </form>
       <Typography

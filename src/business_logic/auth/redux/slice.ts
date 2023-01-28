@@ -31,7 +31,6 @@ export const authSlice = createSlice({
         state.isLoggedIn = true
         state.loading = false
         state.user = payload.user
-        console.log('state.user', state.user)
       })
       .addMatcher(isPending(Login, SignUp), state => {
         state.loading = true

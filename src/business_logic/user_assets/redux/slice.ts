@@ -1,11 +1,28 @@
-import { GetUserPortfolioAsset } from 'business_logic/user_assets/redux/thunk'
+import { GetUserPortfolioAsset, SearchAssets, PurchaseAsset } from 'business_logic/user_assets/redux/thunk'
 import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
-import { UserAssetsResponse } from 'business_logic/user_assets/ts'
+import {
+  SearchAssetRequest,
+  UserAssetsResponse,
+  AssetResponse,
+  SearchAssetResponse,
+} from 'business_logic/user_assets/ts'
 
-const initialState = {
+export interface AssetInitialState {
+  userAsset: UserAssetsResponse | undefined
+  error: boolean
+  asset: Record<number, AssetResponse[]>
+  assetMeta: SearchAssetResponse | undefined
+  loading: boolean
+  isRefetch: boolean
+}
+
+const initialState: AssetInitialState = {
   userAsset: undefined as UserAssetsResponse | undefined,
   error: false,
+  asset: {} as Record<number, AssetResponse[]>,
+  assetMeta: undefined,
   loading: false as boolean,
+  isRefetch: false,
 }
 
 export const AssetSlice = createSlice({
@@ -14,13 +31,27 @@ export const AssetSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
+      .addMatcher(isFulfilled(SearchAssets), (state, action) => {
+        state.asset[0] = [...(state.asset[0] ?? []), ...action.payload.items]
+        state.assetMeta = action.payload.meta
+      })
+      .addMatcher(isFulfilled(PurchaseAsset), (state, action) => {
+        state.isRefetch = true
+
+      })
+      .addMatcher(isPending(PurchaseAsset), (state, action) => {
+        state.isRefetch = true
+      })
       .addMatcher(isFulfilled(GetUserPortfolioAsset), (state, { payload }) => {
         state.userAsset = payload
+        state.loading = false
+        state.isRefetch = false
       })
-      .addMatcher(isPending(GetUserPortfolioAsset), state => {
+      .addMatcher(isPending(GetUserPortfolioAsset, SearchAssets), state => {
         state.loading = true
+        state.isRefetch = false
       })
-      .addMatcher(isRejected(GetUserPortfolioAsset), state => {
+      .addMatcher(isRejected(GetUserPortfolioAsset, SearchAssets), state => {
         state.loading = false
         state.error = true
       })

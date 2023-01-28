@@ -5,20 +5,23 @@
 .form__container {
   display: flex;
   flex-direction: column;
-  width: 350px;
+  justify-content: center;
+  flex-wrap: wrap;
+  max-width: 350px;
 }
 
 .text_field {
-  margin: 20px 40px;
+  margin: 10px 40px;
+  max-width: 300px;
 }
 
 .submit_button_container {
   display: flex;
   justify-content: center;
+  margin-bottom: 30px;
 }
 
 .submit_button {
-  margin-bottom: 30px;
   max-width: 100px;
   background-image: linear-gradient(to right bottom, #302174, #40207b, #501c82, #611688, #72098c);
 }

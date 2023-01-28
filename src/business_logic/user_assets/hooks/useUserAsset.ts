@@ -5,15 +5,18 @@ import { GetUserPortfolioAsset } from 'business_logic/user_assets/redux/thunk'
 
 
 export const useUserAsset = () => {
-  const { userAsset, loading, error } = useAppSelector(state => state.asset)
+  const { userAsset, loading, error, isRefetch } = useAppSelector(state => state.asset)
   const { isAuth } = useAuth()
   const dispatch = useAppDispatch()
 
   useEffect(() => {
-    if (isAuth && !loading && !userAsset) {
+    if (isAuth && !loading && !userAsset && !isRefetch) {
       dispatch(GetUserPortfolioAsset())
     }
-  }, [dispatch, userAsset, loading, isAuth])
+    if (isRefetch) {
+      dispatch(GetUserPortfolioAsset())
+    }
+  }, [dispatch, userAsset, loading, isAuth, isRefetch])
 
   return {userAsset, loading, error}
 }

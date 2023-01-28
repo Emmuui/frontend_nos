@@ -23,7 +23,7 @@ export const useAuth = () => {
       user,
       isLoading,
     }
-  }, [isAuth, user, dispatch])
+  }, [isAuth, user, dispatch, isLoading])
 }
 
 export default useAuth

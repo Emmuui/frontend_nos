@@ -1,5 +1,6 @@
 import axios from 'axios'
 import { DashboardRegistrationRequest, LoginRequest } from 'business_logic/auth/ts'
+import { CreateUserAssetTransactionRequest, SearchAssetRequest } from 'business_logic/user_assets/ts'
 
 const { REACT_APP_API_URL } = process.env
 
@@ -23,6 +24,12 @@ export const AssetApi = {
   },
   get_popular_asset() {
     return api.get('assets/top-movers/portfolio?limit=100')
+  },
+  search_by_asset(request: SearchAssetRequest) {
+    return api.get('assets', {params: request})
+  },
+  asset_transactions(request: CreateUserAssetTransactionRequest){
+    return api.post('/user-asset-transactions/purchase-transaction', request)
   },
 }
 
