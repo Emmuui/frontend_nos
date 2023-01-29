@@ -17,14 +17,14 @@ import styles from './styles.module.scss'
 
 import useAuth from 'business_logic/auth/hooks/useAuth'
 
-const pages = ['Dashboard']
-const settings = ['Profile', 'Manage your assets', 'Logout']
+const settings = ['Manage your assets', 'Logout']
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = useState<null | HTMLElement>(null)
   const [anchorElUser, setAnchorElUser] = useState<null | HTMLElement>(null)
   const { isAuth, user, LogOut } = useAuth()
   const navigate = useNavigate()
+
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget)
   }
@@ -47,7 +47,6 @@ const Navbar = () => {
   const handleDashboard = () => {
     navigate('/')
   }
-
 
   const handleManageUserAssets = () => {
     navigate('/get_user_asset')
@@ -83,32 +82,13 @@ const Navbar = () => {
               fontFamily: 'monospace',
               fontWeight: 700,
               letterSpacing: '.3rem',
-              color: 'inherit',
+              color: 'wheat',
               textDecoration: 'none',
             }}
             className={styles.navbar__ico}
             onClick={handleDashboard}
           >
-            Nosis.io
-          </Typography>
-          <Typography
-            variant='h5'
-            noWrap
-            component='a'
-            sx={{
-              mr: 2,
-              display: { xs: 'flex', md: 'none' },
-              flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
-            }}
-            className={styles.navbar__ico}
-            onClick={handleDashboard}
-          >
-            Nosis.io
+            Nosis.io | Dashboard
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}></Box>
           <Box sx={{ flexGrow: 0 }}>
@@ -116,7 +96,15 @@ const Navbar = () => {
               <>
                 <Tooltip title='Open settings'>
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt={user?.firstName ?? ''} src={user?.avatarUrl ?? ''} />
+                    <Avatar alt={user?.username ?? ''} src={user?.avatarUrl ?? ''} />
+                    <Typography variant='inherit' sx={{
+                      ml: 2,
+                      fontFamily: 'monospace',
+                      fontWeight: 500,
+                      letterSpacing: '.1rem',
+                      color: 'wheat',
+                      textDecoration: 'none',
+                    }}>{user?.username}</Typography>
                   </IconButton>
                 </Tooltip>
                 <Menu

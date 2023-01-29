@@ -6,23 +6,26 @@ import {
   AssetResponse,
   SearchAssetResponse,
 } from 'business_logic/user_assets/ts'
+import { uniqBy } from 'lodash'
 
 export interface AssetInitialState {
   userAsset: UserAssetsResponse | undefined
   error: boolean
-  asset: Record<number, AssetResponse[]>
+  asset: AssetResponse[]
   assetMeta: SearchAssetResponse | undefined
   loading: boolean
   isRefetch: boolean
+  prev_search: string
 }
 
 const initialState: AssetInitialState = {
   userAsset: undefined as UserAssetsResponse | undefined,
   error: false,
-  asset: {} as Record<number, AssetResponse[]>,
+  asset: [],
   assetMeta: undefined,
   loading: false as boolean,
   isRefetch: false,
+  prev_search: '',
 }
 
 export const AssetSlice = createSlice({
@@ -32,8 +35,11 @@ export const AssetSlice = createSlice({
   extraReducers: builder => {
     builder
       .addMatcher(isFulfilled(SearchAssets), (state, action) => {
-        state.asset[0] = [...(state.asset[0] ?? []), ...action.payload.items]
+        state.asset = action.payload.items
         state.assetMeta = action.payload.meta
+        state.loading = false
+        state.isRefetch = false
+        state.prev_search = action.meta.arg.search ?? ''
       })
       .addMatcher(isFulfilled(PurchaseAsset), (state, action) => {
         state.isRefetch = true

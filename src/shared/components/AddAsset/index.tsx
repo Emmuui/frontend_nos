@@ -4,18 +4,18 @@ import { format } from 'date-fns'
 
 import DialogTitle from '@mui/material/DialogTitle'
 import Dialog from '@mui/material/Dialog'
-import InfiniteScroll from "react-infinite-scroll-component";
+import InfiniteScroll from 'react-infinite-scroll-component'
 
-import { CircularProgress, TextField, Typography } from '@mui/material'
+import { Box, CircularProgress, makeStyles, TextField, Typography } from '@mui/material'
 import { useForm } from 'react-hook-form'
 import styles from './styles.module.scss'
-import useSearchAsset from '../../../business_logic/user_assets/hooks/useSearchAsset'
-import { useState } from 'react'
-import { Simulate } from 'react-dom/test-utils'
-import load = Simulate.load
-import { useDebounce } from '../../hooks/useDebounce'
+import useSearchAsset from 'business_logic/user_assets/hooks/useSearchAsset'
+import { useCallback, useState } from 'react'
+import { useDebounce } from 'shared/hooks/useDebounce'
 import { AssetTable } from '../../../pages/assetTable'
-import { useAssetTransactions } from '../../../business_logic/user_assets/hooks/useAssetTransactions'
+import { useAssetTransactions } from 'business_logic/user_assets/hooks/useAssetTransactions'
+import { SelectAsset } from '../SelectAsset'
+import { AssetResponse } from 'business_logic/user_assets/ts'
 
 export interface SimpleDialogProps {
   open: boolean
@@ -39,39 +39,43 @@ type AddAssetType = {
 
 const AddAssetDialog = (props: SimpleDialogProps) => {
   const [searchAsset, setSearchAsset] = useState<string>('')
-  const [page, setPage] = useState<number>(1)
+  const [page, setPage] = useState<number>(2)
   const { handlePurchaseAsset } = useAssetTransactions()
-
+  const [selectedAsset, setSelectedAsset] = useState<AssetResponse>({} as AssetResponse)
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<PurchaseType>()
   const { onClose, selectedValue, open } = props
-  // const debounce_search = useDebounce(searchAsset, 500)
-  //
-  // const { assets, assetMeta, loading, error } = useSearchAsset(
-  //   {
-  //     limit: 10,
-  //     page: page ?? 1,
-  //     search: searchAsset,
-  //   }
-  // )
+  const debounce_search = useDebounce(searchAsset, 500)
+
+  const { assets, loading } = useSearchAsset({
+    limit: 10,
+    page: 1,
+    search: debounce_search,
+  })
+
   const handleClose = () => {
     onClose(selectedValue)
   }
 
-  // console.log(searchAsset, assets)
-  // const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchAsset(event.target.value)
-  //   console.log(assets)
-  // }
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchAsset(event.target.value)
+  }
+
+  const handleSelectedAsset = useCallback(
+    (data: AssetResponse): void => {
+      setSelectedAsset(data)
+    },
+    [setSelectedAsset]
+  )
 
   const handleListItemClick = (value: PurchaseType) => {
     const date = new Date()
 
     const assetData = {
-      assetId: value.asset_id,
+      assetId: selectedAsset.id,
       price: value.price,
       quantity: value.quantity,
       transactionDate: date.toISOString(),
@@ -81,69 +85,85 @@ const AddAssetDialog = (props: SimpleDialogProps) => {
   }
 
   return (
-    <Dialog onClose={handleClose} open={open} className={styles.add_asset_dialog_container}>
-      <h1 className={styles.asset_title}>Add new asset</h1>
+    <Dialog
+      onClose={handleClose}
+      open={open}
+      PaperProps={{
+        style: { borderRadius: 15 },
+      }}
+    >
       <form onSubmit={handleSubmit(handleListItemClick)} className={styles.form__container}>
-        <div className={styles.text_field}>
+        <Box
+          display='flex'
+          width={'40vw'}
+          height={'90vh'}
+          alignItems='center'
+          justifyContent='center'
+          flexDirection='column'
+          className={styles.box__container}
+        >
+          <h1 className={styles.asset_title}>Add new asset</h1>
+          <div className={styles.text_field__container}>
+            <div className={styles.text_field_1}>
+              <TextField
+                id={'Price'}
+                label={'Price'}
+                variant={'outlined'}
+                className={styles.input__field}
+                InputProps={register('price', {})}
+              />
+              {errors?.price?.message && (
+                <Typography className={styles.input__error_message} variant={'inherit'} color={'error'}>
+                  {errors?.price?.message}
+                </Typography>
+              )}
+            </div>
+            <div className={styles.text_field_2}>
+              <TextField
+                id={'Quantity'}
+                label={'Quantity'}
+                variant={'outlined'}
+                className={styles.input__field}
+                InputProps={register('quantity', {})}
+              />
+              {errors?.quantity?.message && (
+                <Typography className={styles.input__error_message} variant={'inherit'} color={'error'}>
+                  {errors?.quantity?.message}
+                </Typography>
+              )}
+            </div>
+          </div>
           <TextField
-            id={'Asset id'}
-            variant={'outlined'}
-            label={'Asset id'}
-            inputProps={register('asset_id', {})}
+            name='Type asset name here'
+            className={styles.search_field}
+            label='Type asset name here'
+            variant={'standard'}
+            InputProps={{ disableUnderline: true }}
+            value={searchAsset}
+            onChange={handleSearchChange}
+            required={true}
           />
-          {errors?.asset_name?.message && (
-            <Typography className={styles.input__error_message} variant={'inherit'} color={'error'}>
-              {errors?.asset_name?.message}
-            </Typography>
-          )}
-        </div>
-        <div className={styles.text_field}>
-          <TextField id={'Price'} label={'Price'} variant={'outlined'} inputProps={register('price', {})} />
-          {errors?.price?.message && (
-            <Typography className={styles.input__error_message} variant={'inherit'} color={'error'}>
-              {errors?.price?.message}
-            </Typography> )}
-        </div>
-        <div className={styles.text_field}>
-          <TextField id={'Quantity'} label={'Quantity'} variant={'outlined'} inputProps={register('quantity', {})} />
-          {errors?.quantity?.message && (
-            <Typography className={styles.input__error_message} variant={'inherit'} color={'error'}>
-              {errors?.quantity?.message}
-            </Typography>
-          )}
-        </div>
-        {/*<TextField*/}
-        {/*  name='Search asset'*/}
-        {/*  label='Search asset'*/}
-        {/*  value={searchAsset}*/}
-        {/*  onChange={handleSearchChange}*/}
-        {/*/>*/}
-        {/*{*/}
-        {/*  !loading && assets && (*/}
-        {/*    <AssetTable assets={assets} loading={loading} title={'Results'}></AssetTable>*/}
-        {/*  )*/}
-        {/*}*/}
-        {/*<InfiniteScroll*/}
-        {/*  dataLength={assets?.length ?? 0}*/}
-        {/*  next={() => setPage(page + 1)}*/}
-        {/*  hasMore={true}*/}
-        {/*  loader={<CircularProgress/>}*/}
-        {/*>*/}
-        {/*  <ul>*/}
-        {/*    {assets?.map(asset => {*/}
-        {/*      return (*/}
-        {/*        <li key={asset.id}>*/}
-        {/*          {asset.name}*/}
-        {/*        </li>*/}
-        {/*      )*/}
-        {/*    })}*/}
-        {/*  </ul>*/}
-        {/*</InfiniteScroll>*/}
-        <div className={styles.submit_button_container}>
-          <Button variant={'contained'} type={'submit'} className={styles.submit_button}>
-            <Typography variant={'inherit'}>Add</Typography>
-          </Button>
-        </div>
+          <div className={styles.asset_to_select}>
+            <ul className={styles.ul}>
+              {assets?.length && !loading ? (
+                assets.map(asset => {
+                  return (
+                    <li key={asset.id}>
+                      <SelectAsset asset={asset} selected_asset={handleSelectedAsset} />
+                    </li>
+                  )
+                })
+              ) : (
+                <CircularProgress />
+              )}
+            </ul>
+          </div>
+          <div className={styles.submit_button_container}>
+            <Button variant={'contained'} type={'submit'} className={styles.submit_button}>
+              <Typography variant={'inherit'}>Add</Typography>
+            </Button>
+          </div>
+        </Box>
       </form>
     </Dialog>
   )

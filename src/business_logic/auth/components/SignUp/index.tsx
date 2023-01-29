@@ -74,8 +74,9 @@ const SignUpForm = () => {
         <TextFieldComponent
           id={'username'}
           label={'Username'}
-          register={register('password', {})}
-          error={errors?.username?.message}/>
+          register={register('username', {})}
+          error={errors?.username?.message}
+        />
         <PasswordInput
           id={'password'}
           label={'Password'}

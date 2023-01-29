@@ -76,7 +76,7 @@ const LoginForm = () => {
             required: { value: true, message: 'This field is required' },
             minLength: { value: 8, message: 'Password length should be more than 8.' },
           })}
-          error={errors?.email?.message}
+          error={errors?.password?.message}
         />
         <Button
           variant={'contained'}

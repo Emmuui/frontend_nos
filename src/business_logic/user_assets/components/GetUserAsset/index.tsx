@@ -14,11 +14,9 @@ type SearchBar = {
 
 export const GetUserAsset = () => {
   const { userAsset, loading } = useUserAsset()
-  const emails = ['username@gmail.com', 'user02@gmail.com']
-  const { handleSubmit, register } = useForm<SearchBar>()
-  const [search, setSearch] = useState<string>('')
+  const close = ['']
   const [open, setOpen] = React.useState(false)
-  const [selectedValue, setSelectedValue] = React.useState(emails[1])
+  const [selectedValue, setSelectedValue] = React.useState(close[1])
 
   const handleClickOpen = () => {
     setOpen(true)
@@ -27,11 +25,6 @@ export const GetUserAsset = () => {
   const handleClose = (value: string) => {
     setOpen(false)
     setSelectedValue(value)
-  }
-
-  console.log('test', userAsset)
-  const handleSearchAsset = (data: string) => {
-    setSearch(data)
   }
 
   const head = useMemo(() => {
@@ -85,11 +78,6 @@ export const GetUserAsset = () => {
       {tableRows?.length ? (
         <>
           <div className={styles.search_bar}>
-            {/*<TextField*/}
-            {/*  variant='standard'*/}
-            {/*  placeholder={'search by asset name'}*/}
-            {/*  onChange={event => handleSearchAsset(event.target.value)}*/}
-            {/*/>*/}
             <Button className={styles.add_asset_button} onClick={handleClickOpen}>
               <p className={styles.add_asset__text}>Add Asset</p>
             </Button>
