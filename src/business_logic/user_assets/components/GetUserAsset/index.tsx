@@ -1,16 +1,11 @@
 import useUserAsset from 'business_logic/user_assets/hooks/useUserAsset'
-import { Button, CircularProgress, TextField, Typography } from '@mui/material'
+import { Button, CircularProgress } from '@mui/material'
 import AssetTableData from 'shared/components/AssetTable'
 import styles from './styles.module.scss'
-import { useMemo, useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { useMemo } from 'react'
 import * as React from 'react'
 import AddAssetDialog from 'shared/components/AddAsset'
-// import SearchIcon from '@mui/icons-material/Search'
 
-type SearchBar = {
-  value: string
-}
 
 export const GetUserAsset = () => {
   const { userAsset, loading } = useUserAsset()
@@ -60,7 +55,7 @@ export const GetUserAsset = () => {
     return { id, image, asset_name, symbol, totalValue, avgBuyPrice, totalQuantity, currencyPrice }
   }
 
-  const tableRows = userAsset?.items.map(asset =>
+  const tableRows = userAsset?.items ? userAsset?.items.map(asset =>
     createData(
       asset?.id,
       asset?.asset.externalImageUrl ?? asset?.asset.name,
@@ -71,11 +66,11 @@ export const GetUserAsset = () => {
       asset?.totalQuantity,
       asset?.asset.currentPrice
     )
-  )
+  ) : null
 
   return (
     <div className={styles.asset_table__container}>
-      {tableRows?.length ? (
+      {tableRows?.length && userAsset?.items ? (
         <>
           <div className={styles.search_bar}>
             <Button className={styles.add_asset_button} onClick={handleClickOpen}>

@@ -71,3 +71,15 @@ export interface DashboardRegistrationRequest {
   password: string
   username: string
 }
+
+
+export interface RefreshTokenResponse {
+  accessToken: string
+  refreshToken: string
+
+  /** @format date-time */
+  refreshTokenExpiresAt: string
+
+  /** @format date-time */
+  accessTokenExpiresAt: string
+}

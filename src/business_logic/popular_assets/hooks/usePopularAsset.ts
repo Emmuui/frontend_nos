@@ -4,7 +4,7 @@ import { GetPopularAsset } from 'business_logic/popular_assets/redux/thunk'
 
 
 export const usePopularAsset = () => {
-  const { popularAsset, loading, error } = useAppSelector(state => state.popular_asset)
+  const { popularAsset, loading, error } = useAppSelector(state => state.PopularAssetSlice)
   const dispatch = useAppDispatch()
 
   useEffect(() => {

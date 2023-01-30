@@ -1,7 +1,8 @@
 import { Login, LogOut, SignUp } from 'business_logic/auth/redux/thunk'
 import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
-
-import { CurrentUserResponse } from 'business_logic/auth/ts'
+import { CurrentUserResponse, LoginResponse, RefreshTokenResponse } from 'business_logic/auth/ts'
+import { persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
 
 const initialState = {
   isLoggedIn: false,
@@ -17,7 +18,24 @@ const initialState = {
 export const authSlice = createSlice({
   name: 'auth',
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    loginSuccess: (state, { payload }: { payload: LoginResponse }) => {
+      state.isLoggedIn = true
+      state.accessToken = payload.accessToken
+      state.refreshToken = payload.refreshToken
+      state.accessTokenExpiresAt = payload.accessTokenExpiresAt
+      state.refreshTokenExpiresAt = payload.refreshTokenExpiresAt
+      state.user = payload.user
+    },
+    refreshTokenSuccess: (state, { payload }: { payload: RefreshTokenResponse }) => {
+      state.accessToken = payload.accessToken
+      state.refreshToken = payload.refreshToken
+      state.accessTokenExpiresAt = payload.accessTokenExpiresAt
+      state.refreshTokenExpiresAt = payload.refreshTokenExpiresAt
+      localStorage.setItem('accessToken', payload.accessToken);
+      localStorage.setItem('refreshToken', payload.accessToken);
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(LogOut, () => initialState)
@@ -44,6 +62,9 @@ export const authSlice = createSlice({
 
 export const authActions = authSlice.actions
 
-export const { reducer: authReducer } = authSlice
+export const authPersistConfig = {
+  key: 'auth',
+  storage,
+}
 
-export default authReducer
+export default persistReducer(authPersistConfig, authSlice.reducer)

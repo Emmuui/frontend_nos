@@ -1,12 +1,11 @@
 import { GetUserPortfolioAsset, SearchAssets, PurchaseAsset } from 'business_logic/user_assets/redux/thunk'
 import { createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit'
 import {
-  SearchAssetRequest,
   UserAssetsResponse,
   AssetResponse,
   SearchAssetResponse,
 } from 'business_logic/user_assets/ts'
-import { uniqBy } from 'lodash'
+
 
 export interface AssetInitialState {
   userAsset: UserAssetsResponse | undefined
@@ -60,6 +59,7 @@ export const AssetSlice = createSlice({
       .addMatcher(isRejected(GetUserPortfolioAsset, SearchAssets), state => {
         state.loading = false
         state.error = true
+        state.userAsset = undefined
       })
   },
 })

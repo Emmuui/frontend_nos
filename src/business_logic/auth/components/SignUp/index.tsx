@@ -19,7 +19,7 @@ const SignUpForm = () => {
   } = useForm<AuthFormInputs>({
     resolver: yupResolver(schema),
   })
-  const { SignUp, isAuth } = useAuth()
+  const { SignUp, isAuth, dispatch } = useAuth()
 
   const navigate = useNavigate()
 
@@ -34,7 +34,6 @@ const SignUpForm = () => {
   }, [isAuth])
 
   const onSubmit = (data: AuthFormInputs) => {
-    console.log(data)
 
     const convertedData = {
       email: data.email?.trim(),
@@ -42,7 +41,7 @@ const SignUpForm = () => {
       password: data.password?.trim(),
     }
 
-    SignUp(convertedData as DashboardRegistrationRequest)
+    dispatch(SignUp(convertedData as DashboardRegistrationRequest))
   }
 
   return (

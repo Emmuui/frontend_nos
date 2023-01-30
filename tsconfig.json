@@ -23,4 +23,5 @@
     "baseUrl": "src",
   },
   "include": ["**/*.ts", "**/*.tsx"],
+  "files": ["./node_modules/redux-persist/types/storage/index.d.ts"]
 }

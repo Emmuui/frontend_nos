@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react'
 import useAuth from 'business_logic/auth/hooks/useAuth'
-import { LoginRequest } from 'business_logic/auth/ts'
+import { LoginRequest, LoginResponse } from 'business_logic/auth/ts'
 import { useNavigate } from 'react-router'
 import { useForm } from 'react-hook-form'
-import { Link, Typography, Box, Button, CircularProgress } from '@mui/material'
+import { Link, Typography, Box, Button } from '@mui/material'
 import { EmailInput } from 'shared/components/EmailInput'
 import { PasswordInput } from 'shared/components/PasswordInput'
 import styles from './styles.module.scss'
 
 const LoginForm = () => {
-  const { Login, isAuth, isLoading } = useAuth()
-  // const [isOpen, setIsOpen] = useState<boolean>(false)
+  const { Login, isAuth, isLoading, dispatch, loginSuccess, error_state } = useAuth()
   const navigate = useNavigate()
   const {
     register,
@@ -22,8 +21,9 @@ const LoginForm = () => {
     navigate('/sign_up')
   }
 
-  const onSubmit = (data: LoginRequest) => {
-    Login(data)
+  const onSubmit = async (requestData: LoginRequest) => {
+    const authorization = await dispatch(Login(requestData))
+    await dispatch(loginSuccess(authorization.payload as LoginResponse))
   }
 
   useEffect(() => {

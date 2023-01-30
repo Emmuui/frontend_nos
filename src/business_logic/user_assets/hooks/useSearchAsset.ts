@@ -1,11 +1,10 @@
 import { useAppDispatch, useAppSelector } from 'store'
-import { useCallback, useEffect, useState } from 'react'
-import useAuth from 'business_logic/auth/hooks/useAuth'
+import { useCallback, useEffect } from 'react'
 import { SearchAssets } from 'business_logic/user_assets/redux/thunk'
 import { SearchAssetRequest } from 'business_logic/user_assets/ts'
 
 export const useSearchAsset = ({ limit, page, search }: SearchAssetRequest) => {
-  const { asset, assetMeta, loading, error } = useAppSelector(state => state.asset)
+  const { asset, assetMeta, loading, error } = useAppSelector(state => state.AssetSlice)
   const dispatch = useAppDispatch()
 
   const handleFetch = useCallback(() => {

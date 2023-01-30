@@ -1,6 +1,8 @@
 import axios from 'axios'
-import { DashboardRegistrationRequest, LoginRequest } from 'business_logic/auth/ts'
+import { DashboardRegistrationRequest, LoginRequest, RefreshTokenResponse } from 'business_logic/auth/ts'
 import { CreateUserAssetTransactionRequest, SearchAssetRequest } from 'business_logic/user_assets/ts'
+import store, { useAppSelector } from '../store'
+import { authActions } from 'business_logic/auth/redux/slice'
 
 const { REACT_APP_API_URL } = process.env
 
@@ -26,9 +28,9 @@ export const AssetApi = {
     return api.get('assets/top-movers/portfolio?limit=100')
   },
   search_by_asset(request: SearchAssetRequest) {
-    return api.get('assets', {params: request})
+    return api.get('assets', { params: request })
   },
-  asset_transactions(request: CreateUserAssetTransactionRequest){
+  asset_transactions(request: CreateUserAssetTransactionRequest) {
     return api.post('/user-asset-transactions/purchase-transaction', request)
   },
 }
@@ -45,3 +47,21 @@ api.interceptors.request.use(
     return Promise.reject(error)
   }
 )
+
+api.interceptors.response.use((response) => {
+  return response
+}, async function (error) {
+  const originalRequest = error.config;
+  if (error.response.status === 401 && !originalRequest._retry) {
+    originalRequest._retry = true;
+    const refreshToken = localStorage.getItem('refreshToken')
+    const { data } = await api.post<RefreshTokenResponse>('/auth/refresh-token', {
+      refreshToken,
+    })
+    store.dispatch(authActions.refreshTokenSuccess(data))
+    api.defaults.headers.common['Authorization'] = 'Bearer ' + data.accessToken;
+    return api(originalRequest);
+  }
+  return Promise.reject(error);
+});
+
