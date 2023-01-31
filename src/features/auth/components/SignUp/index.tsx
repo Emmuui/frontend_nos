@@ -19,7 +19,7 @@ const SignUpForm = () => {
   } = useForm<AuthFormInputs>({
     resolver: yupResolver(schema),
   })
-  const { SignUp, isAuth, dispatch } = useAuth()
+  const { SignUp, isAuth, dispatch, errorMessage } = useAuth()
 
   const navigate = useNavigate()
 
@@ -97,6 +97,20 @@ const SignUpForm = () => {
         <Button variant={'contained'} type={'submit'} disabled={false} className={styles.sign_up__button}>
           <Typography variant={'inherit'}>Sign Up</Typography>
         </Button>
+        {
+          errorMessage && (
+            <Typography
+              variant={'inherit'}
+              marginTop={'15px'}
+              fontFamily={'BlinkMacSystemFont'}
+              fontWeight={500}
+              fontSize={15}
+              color={'red'}
+            >
+              {errorMessage}
+            </Typography>
+          )
+        }
       </form>
       <Typography
         variant={'inherit'}

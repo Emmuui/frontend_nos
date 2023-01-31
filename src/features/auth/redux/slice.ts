@@ -13,6 +13,7 @@ const initialState = {
   refreshTokenExpiresAt: null as null | string | Date,
   error: false,
   loading: false as boolean,
+  errorMessage: '' as string | undefined,
 }
 
 export const authSlice = createSlice({
@@ -49,13 +50,16 @@ export const authSlice = createSlice({
         state.isLoggedIn = true
         state.loading = false
         state.user = payload.user
+        state.errorMessage = undefined
+        state.error = false
       })
       .addMatcher(isPending(Login, SignUp), state => {
         state.loading = true
       })
-      .addMatcher(isRejected(Login, SignUp), state => {
+      .addMatcher(isRejected(Login, SignUp), (state, action) => {
         state.loading = false
         state.error = true
+        state.errorMessage = action.payload as string
       })
   },
 })

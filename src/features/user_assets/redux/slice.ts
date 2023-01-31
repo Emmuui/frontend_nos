@@ -15,6 +15,7 @@ export interface AssetInitialState {
   loading: boolean
   isRefetch: boolean
   prev_search: string
+  errorMessage: string | undefined
 }
 
 const initialState: AssetInitialState = {
@@ -25,6 +26,7 @@ const initialState: AssetInitialState = {
   loading: false as boolean,
   isRefetch: false,
   prev_search: '',
+  errorMessage: undefined,
 }
 
 export const AssetSlice = createSlice({
@@ -40,26 +42,27 @@ export const AssetSlice = createSlice({
         state.isRefetch = false
         state.prev_search = action.meta.arg.search ?? ''
       })
-      .addMatcher(isFulfilled(PurchaseAsset), (state, action) => {
+      .addMatcher(isFulfilled(PurchaseAsset), state => {
         state.isRefetch = true
-
       })
-      .addMatcher(isPending(PurchaseAsset), (state, action) => {
+      .addMatcher(isPending(PurchaseAsset), state => {
         state.isRefetch = true
       })
       .addMatcher(isFulfilled(GetUserPortfolioAsset), (state, { payload }) => {
         state.userAsset = payload
         state.loading = false
         state.isRefetch = false
+        state.errorMessage = undefined
       })
       .addMatcher(isPending(GetUserPortfolioAsset, SearchAssets), state => {
         state.loading = true
         state.isRefetch = false
       })
-      .addMatcher(isRejected(GetUserPortfolioAsset, SearchAssets), state => {
+      .addMatcher(isRejected(GetUserPortfolioAsset, SearchAssets), (state, action) => {
         state.loading = false
         state.error = true
         state.userAsset = undefined
+        state.errorMessage = action.payload as string
       })
   },
 })

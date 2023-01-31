@@ -6,13 +6,14 @@ import {
   SearchAssetRequest,
   UserAssetsResponse,
 } from 'features/user_assets/ts'
+import { handleErrors, NosisApiError } from 'api/errorUtils'
 
 export const GetUserPortfolioAsset = createAsyncThunk<UserAssetsResponse>('asset', async (_, thunkAPI) => {
   try {
     const { data } = await AssetApi.get_user_asset()
     return data
   } catch (e) {
-    return thunkAPI
+    return handleErrors(e as NosisApiError, thunkAPI)
   }
 })
 
@@ -23,7 +24,7 @@ export const SearchAssets = createAsyncThunk<PaginatedAssetsResponse, SearchAsse
       const { data } = await AssetApi.search_by_asset(request)
       return data
     } catch (e) {
-      return thunkAPI
+      return handleErrors(e as NosisApiError, thunkAPI)
     }
   }
 )

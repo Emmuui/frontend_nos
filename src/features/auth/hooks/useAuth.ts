@@ -9,7 +9,8 @@ export const useAuth = () => {
   const isLoggedInState = (state: RootState) => state.authSlice.isLoggedIn
   const errorState = (state: RootState) => state.authSlice.error
   const error = useAppSelector(errorState)
-
+  const errorMessageState = (state: RootState) => state.authSlice.errorMessage
+  const errorMessage = useAppSelector(errorMessageState)
   const isLoadingState = (state: RootState) => state.authSlice.loading
   const isAuth = useAppSelector(createSelector(userState, (user): boolean => user !== null && user !== undefined))
   const user = useAppSelector(userState)
@@ -22,6 +23,7 @@ export const useAuth = () => {
     isLoading,
     dispatch,
     isLoggedIn,
+    errorMessage,
     error_state: error,
     ...authThunks,
     ...authActions,

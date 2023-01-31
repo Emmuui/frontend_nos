@@ -9,7 +9,7 @@ import { PasswordInput } from 'shared/components/PasswordInput'
 import styles from './styles.module.scss'
 
 const LoginForm = () => {
-  const { Login, isAuth, isLoading, dispatch, loginSuccess } = useAuth()
+  const { Login, isAuth, isLoading, dispatch, loginSuccess, errorMessage } = useAuth()
   const navigate = useNavigate()
   const {
     register,
@@ -86,6 +86,20 @@ const LoginForm = () => {
         >
           {!isLoading ? 'Login' : 'Loading...'}
         </Button>
+        {
+          errorMessage && (
+            <Typography
+              variant={'inherit'}
+              marginTop={'15px'}
+              fontFamily={'BlinkMacSystemFont'}
+              fontWeight={500}
+              fontSize={15}
+              color={'red'}
+            >
+              {errorMessage}
+            </Typography>
+          )
+        }
       </form>
       <Typography
         variant={'inherit'}
