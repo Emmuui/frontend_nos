@@ -1,8 +1,7 @@
 import axios from 'axios'
-import { DashboardRegistrationRequest, LoginRequest, RefreshTokenResponse } from 'business_logic/auth/ts'
-import { CreateUserAssetTransactionRequest, SearchAssetRequest } from 'business_logic/user_assets/ts'
-import store, { useAppSelector } from '../store'
-import { authActions } from 'business_logic/auth/redux/slice'
+import { RefreshTokenResponse } from 'features/auth/ts'
+import store from 'store'
+import { authActions } from 'features/auth/redux/slice'
 
 const { REACT_APP_API_URL } = process.env
 
@@ -10,30 +9,6 @@ export const api = axios.create({
   withCredentials: true,
   baseURL: `${REACT_APP_API_URL}`,
 })
-
-export const authAPI = {
-  login(request: LoginRequest) {
-    return api.post('/auth/login', request)
-  },
-  sign_up(request: DashboardRegistrationRequest) {
-    return api.post('/users/dashboard-users/register', request)
-  },
-}
-
-export const AssetApi = {
-  get_user_asset() {
-    return api.get('assets/user-assets')
-  },
-  get_popular_asset() {
-    return api.get('assets/top-movers/portfolio?limit=100')
-  },
-  search_by_asset(request: SearchAssetRequest) {
-    return api.get('assets', { params: request })
-  },
-  asset_transactions(request: CreateUserAssetTransactionRequest) {
-    return api.post('/user-asset-transactions/purchase-transaction', request)
-  },
-}
 
 api.interceptors.request.use(
   config => {

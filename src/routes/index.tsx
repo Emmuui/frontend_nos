@@ -8,6 +8,7 @@ import SignUpPage from 'pages/SignUpPage'
 import GetUserAssetPage from '../pages/GetUserAssetPage'
 import PrivateRoute from './PrivateRoute'
 import Navbar from 'shared/components/Navbar'
+import AuthRoutes from '../features/auth/routes'
 
 
 type RouteType = {
@@ -31,6 +32,7 @@ const AppRoutes = (): ReactElement => {
     <BrowserRouter>
       <Navbar/>
       <Routes>
+        {/*<Route path={`${ROUTES.home}/*`} element={<AuthRoutes/>} />*/}
         {Object(routes.publicRoutes).map((route: RouteType, index: number) => (
           <Route key={index} path={route.path} element={route.element} />
         ))}

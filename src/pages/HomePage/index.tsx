@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { GetPopularAsset } from 'business_logic/popular_assets/components/PopularAssets'
+import { GetPopularAsset } from 'features/popular_assets/components/PopularAssets'
 import styles from './styles.module.scss'
 import { Grid } from '@mui/material'
 

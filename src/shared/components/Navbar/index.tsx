@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 import styles from './styles.module.scss'
 
-import useAuth from 'business_logic/auth/hooks/useAuth'
+import useAuth from 'features/auth/hooks/useAuth'
 
 const settings = ['Manage your assets', 'Logout']
 

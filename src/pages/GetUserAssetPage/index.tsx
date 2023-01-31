@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react';
-import { GetUserAsset } from 'business_logic/user_assets/components/GetUserAsset'
+import { GetUserAsset } from 'features/user_assets/components/GetUserAsset'
 import { Grid } from '@mui/material'
 
 const GetUserAssetPage = (): ReactElement => {

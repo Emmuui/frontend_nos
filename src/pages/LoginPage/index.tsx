@@ -1,7 +1,7 @@
 import React, { ReactElement } from 'react';
 import { Grid, Typography } from '@mui/material'
 import styles from './styles.module.scss';
-import LoginForm from 'business_logic/auth/components/Login'
+import LoginForm from 'features/auth/components/Login'
 
 const LoginPage = (): ReactElement => {
   return (

@@ -1,4 +1,4 @@
-import useAuth from 'business_logic/auth/hooks/useAuth'
+import useAuth from 'features/auth/hooks/useAuth'
 import React, { ReactElement } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 

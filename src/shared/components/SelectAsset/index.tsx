@@ -1,4 +1,4 @@
-import { AssetResponse } from 'business_logic/user_assets/ts'
+import { AssetResponse } from 'features/user_assets/ts'
 import styles from './styles.module.scss'
 import { Avatar } from '@mui/material'
 import React from 'react'
